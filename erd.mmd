@@ -1,0 +1,46 @@
+erDiagram
+    books {
+        INTEGER book_id PK
+        TEXT title
+        TEXT isbn
+        INTEGER publication_year
+        TEXT genre
+    }
+    authors {
+        INTEGER author_id PK
+        TEXT name UK
+    }
+    book_authors {
+        INTEGER book_id PK,FK
+        INTEGER author_id PK,FK
+    }
+    copies {
+        INTEGER copy_id PK
+        INTEGER book_id FK
+        TEXT status
+    }
+    members {
+        INTEGER member_id PK
+        TEXT full_name
+        TEXT member_type
+        TEXT join_date
+        INTEGER id_verified
+        TEXT id_type
+        TEXT guardian_name
+        INTEGER guardian_member_id FK
+    }
+    borrowings {
+        INTEGER borrowing_id PK
+        INTEGER member_id FK
+        INTEGER copy_id FK
+        TEXT checkout_date
+        TEXT due_date
+        TEXT return_date
+    }
+
+    books        ||--o{ book_authors : "appears in"
+    authors      ||--o{ book_authors : "appears in"
+    books        ||--o{ copies       : "has"
+    members      ||--o{ borrowings   : "makes"
+    copies       ||--o{ borrowings   : "loaned in"
+    members      |o--o{ members       : "guardian of"
